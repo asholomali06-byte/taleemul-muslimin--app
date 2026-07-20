@@ -3,140 +3,180 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>তাালীমুল মুসলিমিন অ্যাপ</title>
+    <title>শিক্ষার্থী অ্যাডমিশন ও বুক ট্র্যাকিং</title>
+    <link rel="manifest" href="manifest.json">
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        body {
-            background-color: #f4f7f6;
-            color: #333;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-        }
-        header {
-            background-color: #0f5132;
-            color: white;
-            width: 100%;
-            max-width: 600px;
-            text-align: center;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        .card {
-            background: white;
-            width: 100%;
-            max-width: 600px;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        }
-        h2 {
-            color: #0f5132;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #e2e8f0;
-            padding-bottom: 5px;
-        }
-        .hadith-text {
-            font-style: italic;
-            color: #555;
-            line-height: 1.6;
-        }
-        .counter-box {
-            text-align: center;
-            padding: 20px;
-        }
-        .counter-number {
-            font-size: 48px;
-            font-weight: bold;
-            color: #0f5132;
-            margin: 10px 0;
-        }
-        button {
-            background-color: #0f5132;
-            color: white;
-            border: none;
-            padding: 10px 25px;
-            font-size: 18px;
-            border-radius: 5px;
-            cursor: pointer;
-            margin: 5px;
-            transition: 0.2s;
-        }
-        button:active {
-            transform: scale(0.95);
-        }
-        button.reset {
-            background-color: #dc3545;
-        }
-        footer {
-            margin-top: 20px;
-            color: #777;
-            font-size: 14px;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
+        body { background-color: #f4f6f9; padding: 15px; display: flex; flex-direction: column; align-items: center; }
+        header { background-color: #0d6efd; color: white; width: 100%; max-width: 750px; text-align: center; padding: 15px; border-radius: 10px; margin-bottom: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .card { background: white; width: 100%; max-width: 750px; padding: 20px; border-radius: 10px; margin-bottom: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        h3 { color: #0d6efd; margin-bottom: 15px; border-bottom: 2px solid #f0f2f5; padding-bottom: 5px; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 15px; }
+        .form-group { display: flex; flex-direction: column; }
+        .form-group.full { grid-column: span 2; }
+        label { margin-bottom: 5px; font-weight: bold; font-size: 13px; color: #444; }
+        input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px; }
+        
+        .book-section { background: #f8f9fa; border: 1px solid #e0e0e0; padding: 15px; border-radius: 8px; margin-bottom: 15px; }
+        .book-row { display: grid; grid-template-columns: 1.5fr 1fr; gap: 15px; margin-bottom: 10px; align-items: center; }
+        .book-name { font-weight: bold; color: #333; font-size: 14px; background: #fff; padding: 8px; border-radius: 4px; border: 1px dashed #bbb; }
+        
+        button { background-color: #0d6efd; color: white; border: none; width: 100%; padding: 12px; font-size: 16px; border-radius: 5px; cursor: pointer; font-weight: bold; transition: 0.2s; }
+        button:active { transform: scale(0.98); }
+        .search-box { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #0d6efd; border-radius: 5px; font-size: 14px; }
+        
+        .student-item { background: #fff; border: 1px solid #e0e0e0; border-left: 6px solid #0d6efd; padding: 15px; border-radius: 5px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: flex-start; }
+        .student-info { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; width: 85%; }
+        .student-info p { font-size: 13px; color: #333; line-height: 1.5; }
+        .student-info p.full-line { grid-column: span 2; font-size: 14px; border-bottom: 1px dashed #ddd; padding-bottom: 3px; margin-bottom: 3px; }
+        .book-list-output { grid-column: span 2; background: #f0f7ff; padding: 8px; border-radius: 5px; margin-top: 5px; font-size: 12px; border: 1px solid #d0e3ff; }
+        .delete-btn { background-color: #dc3545; width: auto; padding: 6px 12px; font-size: 13px; margin-top: 5px; color: white; border: none; border-radius: 4px; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>তাালীমুল মুসলিমিন</h1>
-        <p>ইসলামিক জীবনযাপনের সহজ সহযোগী</p>
+        <h2>কোচিং সেন্টার অ্যাডমিশন ও বুক ট্র্যাকিং</h2>
+        <p>শিক্ষার্থীদের ভর্তি, রসিদ ও বইয়ের নম্বর সংরক্ষণ অ্যাপ</p>
     </header>
 
-    <!-- আজকের হাদিস সেকশন -->
     <div class="card">
-        <h2>আজকের বাণী</h2>
-        <p class="hadith-text" id="hadith">"তোমাদের মধ্যে সেই ব্যক্তি সর্বোত্তম, যে কুরআন শেখে এবং অপরকে শিক্ষা দেয়।" (সহীহ বুখারী)</p>
-    </div>
-
-    <!-- ডিজিটাল তাসবিহ সেকশন -->
-    <div class="card">
-        <h2>ডিজিটাল তাসবিহ কাউন্টার</h2>
-        <div class="counter-box">
-            <p>আলহামদুলিল্লাহ / সুবহানাল্লাহ / আল্লাহু আকবার</p>
-            <div class="counter-number" id="count">0</div>
-            <button onclick="increment()">গণনা করুন (+)</button>
-            <button class="reset" onclick="resetCounter()">রিসেট</button>
+        <h3>নতুন অ্যাডমিশন ফরম</h3>
+        <div class="form-grid">
+            <div class="form-group">
+                <label>অ্যাডমিশন নম্বর (Admission No):</label>
+                <input type="text" id="admNo" placeholder="যেমন: ADM-401">
+            </div>
+            <div class="form-group">
+                <label>ক্লাস (Class):</label>
+                <input type="text" id="class" placeholder="যেমন: Class 5">
+            </div>
+            <div class="form-group full">
+                <label>শিক্ষার্থীর নাম:</label>
+                <input type="text" id="name" placeholder="ছাত্র/ছাত্রীর পূর্ণ নাম">
+            </div>
+            <div class="form-group">
+                <label>বাবার নাম:</label>
+                <input type="text" id="father" placeholder="পিতার নাম">
+            </div>
+            <div class="form-group">
+                <label>মার নাম:</label>
+                <input type="text" id="mother" placeholder="মাতার নাম">
+            </div>
+            <div class="form-group">
+                <label>জন্ম তারিখ (Date of Birth):</label>
+                <input type="date" id="dob">
+            </div>
+            <div class="form-group">
+                <label>মোবাইল নম্বর:</label>
+                <input type="tel" id="mobile" placeholder="অভিভাবকের মোবাইল নম্বর">
+            </div>
+            <div class="form-group">
+                <label>এডমিশন ডেট (Admission Date):</label>
+                <input type="date" id="admDate">
+            </div>
+            <div class="form-group">
+                <label>পেয়মেন্ট ডেট (Payment Date):</label>
+                <input type="date" id="payDate">
+            </div>
+            <div class="form-group">
+                <label>এডমিশন ফি (Admission Fee):</label>
+                <input type="number" id="admFee" placeholder="টাকার পরিমাণ">
+            </div>
+            <div class="form-group">
+                <label>রিসিট নম্বর (Receipt No):</label>
+                <input type="text" id="receiptNo" placeholder="মানি রিসিট নম্বর">
+            </div>
         </div>
+
+        <h3>বইয়ের নাম ও বইয়ের নম্বর (Book Info)</h3>
+        <div class="book-section">
+            <div class="book-row">
+                <div class="book-name">১. দ্বীনিশিক্ষা</div>
+                <input type="text" id="book1" placeholder="বইয়ের নম্বর (যেমন: 401)">
+            </div>
+            <div class="book-row">
+                <div class="book-name">২. খাতা</div>
+                <input type="text" id="book2" placeholder="খাতার নম্বর (যেমন: 404)">
+            </div>
+            <div class="book-row">
+                <div class="book-name">৩. নূরানী কায়দা</div>
+                <input type="text" id="book3" placeholder="каяদার নম্বর (যেমন: 408)">
+            </div>
+            <div class="book-row">
+                <div class="book-name">৪. আম্মাপারা</div>
+                <input type="text" id="book4" placeholder="আম্মাপারার নম্বর (যেমন: 403)">
+            </div>
+            <div class="book-row">
+                <div class="book-name">৫. উর্দু কায়দা</div>
+                <input type="text" id="book5" placeholder="উর্দু কায়দার নম্বর (যেমন: 407)">
+            </div>
+        </div>
+
+        <button onclick="addStudent()">ডাটা সংরক্ষণ করুন</button>
     </div>
 
-    <footer>
-        <p>&copy; 2026 তাালীমুল মুসলিমিন অ্যাপ। সর্বস্বত্ব সংরক্ষিত।</p>
-    </footer>
+    <div class="card">
+        <h3>ভর্তিকৃত শিক্ষার্থীদের তালিকা</h3>
+        <input type="text" id="search" class="search-box" onkeyup="filterStudents()" placeholder="নাম, মোবাইল বা আইডি দিয়ে খুঁজুন...">
+        <div id="studentList"></div>
+    </div>
 
     <script>
-        // তাসবিহ কাউন্টার লজিক
-        let count = 0;
-        const countDisplay = document.getElementById('count');
+        document.addEventListener("DOMContentLoaded", function() {
+            const today = new Date().toISOString().split('T');
+            document.getElementById('admDate').value = today[0];
+            document.getElementById('payDate').value = today[0];
+            displayStudents();
+        });
 
-        function increment() {
-            count++;
-            countDisplay.innerText = count;
+        function addStudent() {
+            const admNo = document.getElementById('admNo').value;
+            const studentClass = document.getElementById('class').value;
+            const name = document.getElementById('name').value;
+            const father = document.getElementById('father').value;
+            const mother = document.getElementById('mother').value;
+            const dob = document.getElementById('dob').value || 'N/A';
+            const mobile = document.getElementById('mobile').value || 'N/A';
+            const admDate = document.getElementById('admDate').value;
+            const payDate = document.getElementById('payDate').value;
+            const admFee = document.getElementById('admFee').value;
+            const receiptNo = document.getElementById('receiptNo').value;
+            
+            const book1 = document.getElementById('book1').value || 'দেওয়া হয়নি';
+            const book2 = document.getElementById('book2').value || 'দেওয়া হয়নি';
+            const book3 = document.getElementById('book3').value || 'দেওয়া হয়নি';
+            const book4 = document.getElementById('book4').value || 'দেওয়া হয়নি';
+            const book5 = document.getElementById('book5').value || 'দেওয়া হয়নি';
+
+            if(!admNo || !name || !studentClass) {
+                alert('অ্যাডমিশন নম্বর, শিক্ষার্থীর নাম এবং ক্লাস অবশ্যই পূরণ করুন!');
+                return;
+            }
+
+            const student = { admNo, studentClass, name, father, mother, dob, mobile, admDate, payDate, admFee, receiptNo, book1, book2, book3, book4, book5 };
+            let students = localStorage.getItem('coachingUltimateDB_v2') ? JSON.parse(localStorage.getItem('coachingUltimateDB_v2')) : [];
+            students.push(student);
+            localStorage.setItem('coachingUltimateDB_v2', JSON.stringify(students));
+
+            document.getElementById('admNo').value = '';
+            document.getElementById('class').value = '';
+            document.getElementById('name').value = '';
+            document.getElementById('father').value = '';
+            document.getElementById('mother').value = '';
+            document.getElementById('dob').value = '';
+            document.getElementById('mobile').value = '';
+            document.getElementById('admFee').value = '';
+            document.getElementById('receiptNo').value = '';
+            document.getElementById('book1').value = '';
+            document.getElementById('book2').value = '';
+            document.getElementById('book3').value = '';
+            document.getElementById('book4').value = '';
+            document.getElementById('book5').value = '';
+
+            displayStudents();
         }
 
-        function resetCounter() {
-            count = 0;
-            countDisplay.innerText = count;
-        }
-
-        // হাদিস পরিবর্তনের লজিক (পেজ রিফ্রেশ করলে পরিবর্তন হবে)
-        const hadiths = [
-            "\"তোমাদের মধ্যে সেই ব্যক্তি সর্বোত্তম, যে কুরআন শেখে এবং অপরকে শিক্ষা দেয়।\" (সহীহ বুখারী)",
-            "\"সহজ করো, কঠিন করো না; সুসংবাদ দাও, দূরে সরিয়ে দিও না।\" (সহীহ বুখারী)",
-            "\"পবিত্রতা ঈমানের অর্ধেক।\" (সহীহ মুসলিম)",
-            "\"প্রকৃত মুসলিম সেই, যার জিব ও হাত থেকে অন্য মুসলিম নিরাপদ থাকে।\" (সহীহ বুখারী)"
-        ];
-
-        const randomHadith = hadiths[Math.floor(Math.random() * hadiths.length)];
-        document.getElementById('hadith').innerText = randomHadith;
-    </script>
-</body>
-</html>
+        function displayStudents() {
+            const studentList = document.getElementById('studentList');
+            studentList.innerHTML = '';
